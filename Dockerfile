@@ -6,7 +6,7 @@ ENV PYTHONUNBUFFERED=1 \
     PIP_NO_CACHE_DIR=1
 
 RUN apt-get update \
-    && apt-get install -y --no-install-recommends sudo \
+    && apt-get install -y --no-install-recommends sudo libgomp1\
     && rm -rf /var/lib/apt/lists/*
 
 COPY ai.py ./

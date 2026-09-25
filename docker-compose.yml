@@ -1,11 +1,6 @@
 services:
   rkllm-server:
-    build:
-      context: .
-      dockerfile: Dockerfile
-      platforms:
-        - linux/arm64
-    image: ${RKLLM_IMAGE:-rkllm-server:arm64}
+    image: ghcr.io/mvpwar/rkllm_server:sha-fc4c672
     platform: linux/arm64
     privileged: true
     ports:
@@ -13,15 +8,14 @@ services:
     devices:
       - /dev:/dev
     environment:
-      TARGET_PLATFORM: ${TARGET_PLATFORM:-rk3588}
-      RKLLM_MODEL_PATH: ${RKLLM_MODEL_PATH:-qwen3/qwen3.rkllm}
+      TARGET_PLATFORM: rk3588
+      RKLLM_MODEL_PATH: Qwen2.5-1.5B-Instruct/Qwen2.5-1.5B-Instruct-rk3588-w8a8-opt-0-hybrid-ratio-1.0.rkllm
     volumes:
       - ./models:/models:ro
       - /sys:/sys
     command:
       - --target_platform
-      - ${TARGET_PLATFORM:-rk3588}
+      - ${TARGET_PLATFORM}
       - --rkllm_model_path
-      - /models/${RKLLM_MODEL_PATH:-qwen3/qwen3.rkllm}
+      - /models/${RKLLM_MODEL_PATH}
     restart: unless-stopped
-
