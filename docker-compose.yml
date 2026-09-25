@@ -10,14 +10,18 @@ services:
     privileged: true
     ports:
       - "8080:8080"
+    devices:
+      - /dev:/dev
     environment:
       TARGET_PLATFORM: ${TARGET_PLATFORM:-rk3588}
+      RKLLM_MODEL_PATH: ${RKLLM_MODEL_PATH:-qwen3/qwen3.rkllm}
     volumes:
       - ./models:/models:ro
+      - /sys:/sys
     command:
       - --target_platform
       - ${TARGET_PLATFORM:-rk3588}
       - --rkllm_model_path
-      - /models
+      - /models/${RKLLM_MODEL_PATH:-qwen3/qwen3.rkllm}
     restart: unless-stopped
 
