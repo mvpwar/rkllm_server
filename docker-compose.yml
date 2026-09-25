@@ -1,21 +1,17 @@
 services:
   rkllm-server:
-    image: ghcr.io/mvpwar/rkllm_server:sha-fc4c672
+    image: ghcr.io/mvpwar/rkllm_server:latest
     platform: linux/arm64
     privileged: true
     ports:
       - "8080:8080"
     devices:
       - /dev:/dev
-    environment:
-      TARGET_PLATFORM: rk3588
-      RKLLM_MODEL_PATH: Qwen2.5-1.5B-Instruct/Qwen2.5-1.5B-Instruct-rk3588-w8a8-opt-0-hybrid-ratio-1.0.rkllm
     volumes:
-      - ./models:/models:ro
-      - /sys:/sys
+      - /vol1/1000/rkllama/models:/models:ro
     command:
       - --target_platform
-      - ${TARGET_PLATFORM}
+      - rk3588
       - --rkllm_model_path
-      - /models/${RKLLM_MODEL_PATH}
+      - /models/Qwen2.5-1.5B-Instruct/Qwen2.5-1.5B-Instruct-rk3588-w8a8-opt-0-hybrid-ratio-1.0.rkllm
     restart: unless-stopped
