@@ -1,0 +1,23 @@
+services:
+  rkllm-server:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      platforms:
+        - linux/arm64
+    image: ${RKLLM_IMAGE:-rkllm-server:arm64}
+    platform: linux/arm64
+    privileged: true
+    ports:
+      - "8080:8080"
+    environment:
+      TARGET_PLATFORM: ${TARGET_PLATFORM:-rk3588}
+    volumes:
+      - ./models:/models:ro
+    command:
+      - --target_platform
+      - ${TARGET_PLATFORM:-rk3588}
+      - --rkllm_model_path
+      - /models
+    restart: unless-stopped
+
